@@ -1,114 +1,63 @@
 # Etherex Adoption Analysis
-A data-driven analysis of Etherex on Linea, focusing on genuine user adoption, liquidity efficiency, and protocol incentives using Dune Analytics.
-Etherex is Linea’s new next-gen MetaDEX.
+Beyond Volume Metrics - Tracking real activity metrics on Linea's fastest-rising Decentralised Exchange (DEX)
 
 ## Table of Contents
 
 1. [Introduction](#introduction)
-   
 2. [Dashboard Overview](#dashboard-overview)
-  
 3. [Methodology](#methodology)
-   - Data Collection Process
-   - SQL Queries & API Scripts
-   - Chart Explanation
-
-4. [Insights & Analysis](#insights--analysis)
-   - Adoption Quality (Regular vs Genuine Users)
-   - Liquidity Efficiency & Capital Utilization
-   - Fee Yield & Incentive Alignment
-   
+4. [Key Insights](#Key-insights)
+5. [Challenges](#challenges)
 5. [Resources & References](#resources--references)
-   - Articles, Reports, and Whitepapers
-   - Dune Queries & Documentation Links
-
-7. [Conclusion](#conclusion)
-   - Key Takeaways
-   - Limitations & Next Steps
   
 ## 1. Introduction
-### Project Overview: Why Linea & Etherex
-I chose to focus on Etherex and the Linea ecosystem due to their emerging significance in the Ethereum scaling landscape. Linea, ConsenSys’ zkEVM rollup, has recently been gaining traction as a high-performance L2 solution for Ethereum, designed to provide faster and cheaper transactions while maintaining Ethereum’s security. According to Blockworks and Cointelegraph, Linea’s roadmap and adoption are accelerating, making it a prime candidate for examining early-stage L2 adoption metrics.
+### Project Overview
 
-Etherex, currently the second-largest DEX on Linea by TVL (DefiLlama), provides a tangible lens to evaluate how users are interacting with new DeFi infrastructure. By analysing Etherex activity alongside staking, fee distribution, and trade behaviour, this dashboard aims to capture early adoption patterns, user quality, and the economic value being generated in the Linea ecosystem.
+Welcome to the Etherex Dashboard, a comprehensive analytics tool examining genuine user engagement on Etherex, Linea's native DEX, while filtering out bot manipulation and vanity metrics.
 
-Unlike other DEXs, Etherex sends 100% of trading fees to stakers and 100% of liquidity rewards to LPs—no cuts to insiders or teams. Its native token, REX, powers a flywheel of rewards: LPs earn REX, and staking REX into xREX gives you governance rights and a share of all trading fees.
+#### Why Linea & Etherex
+**Linea**: ConsenSys' zkEVM rollup is gaining significant traction as a high-performance L2 solution, with accelerating adoption in the Ethereum scaling landscape.
+
+**Etherex**: Currently the second-largest DEX on Linea by TVL (Total Value Locked), powered by metaDEX x(3,3) methodology—an evolved, more accessible version of ve(3,3).
+
+#### What Makes Etherex Unique
+* 100% fee distribution → All trading fees to stakers
+* 100% liquidity rewards → All rewards goes to Liquidy Providers, no team cuts
+* REX flywheel → LPs earn REX → Stake as xREX for governance + fee sharing
+
 
 This analysis explore real, actionable metrics in a fast-growing ecosystem, providing insights into both protocol health and broader L2 adoption trends.
-Sources: [Blockworks](https://blockworks.co/news/linea-previews-eth-first-roadmap), [Cointelegraph](https://cointelegraph.com/news/consensys-launches-linea-zk-evm-to-scale-ethereum), [DefiLlama](https://defillama.com/protocol/dexs/etherex), [Etherex Twitter](https://x.com/etherexfi/status/1947132627737309399)
+
+Sources: [Blockworks](https://blockworks.co/news/linea-previews-eth-first-roadmap) / [Cointelegraph](https://cointelegraph.com/news/consensys-launches-linea-zk-evm-to-scale-ethereum) / [DefiLlama](https://defillama.com/protocol/dexs/etherex) / [Etherex Twitter](https://x.com/etherexfi/status/1947132627737309399)
 
 ## 2. Dashboard Overview
-This dashboard provides a structured view of Etherex performance within the Linea ecosystem. The charts are grouped by stakeholder audience: Protocol Teams, Advisors/Investors, and Subscribers/Users.
-By structuring the data this way, the dashboard moves beyond raw numbers to deliver actionable insights tailored to each audience.
+The Etherex Dashboard provides a structured view of the protocol’s performance within the Linea ecosystem. Charts are created for different stakeholder audiences — **Protocol Teams, Advisors, and Users** — to deliver actionable insights.
 
-Data is sourced from Dune Analytics and is presented with a balance of technical accuracy and strategic interpretation.
+Data is sourced from **Dune Analytics** and presented with a balance of technical accuracy and strategic interpretation.
 
----
-
-#### 1. Protocol Teams  
-**Focus:** Internal Etherex health, incentive effectiveness, and liquidity engagement.  
-These metrics help protocol maintainers gauge how incentives perform and where improvements may be needed.  
-
-**Key Charts**
-- **Daily REX Staking Behavior**  
-  *Monitors adoption of staking and conversion to xREX.*  
-- **Emission Effectiveness (Weekly Staking vs. DEX Activity)**  
-  - Tests whether staking incentives (xREX rewards) successfully increase liquidity on Etherex.  
-  - Identifies weeks where higher staking aligns with higher DEX trading activity.  
-  - Helps answer: *Are incentives attracting genuine users and volume to Etherex?*  
+| Dashboard Sections    | Charts                                                       | Audience / Purpose |
+| -------------------- | ------------------------------------------------------------ | ------------------ |
+| Protocol Performance | Daily REX Staking, Emission Effectiveness, Staking-to-Swap   | Protocol Teams     |
+| User Behaviour        | User Quality Analysis, User Leaderboard                      | Advisors / Users   |
+| Trading & Adoption   | Top Trading Pairs, Etherex Adoption & Sustainability Metrics | Advisors / Users   |
 
 ---
 
-#### 2. Advisors / Investors  
-**Focus:** Economic and growth signals to evaluate Etherex’s long-term performance and viability.  
+You can access the full dashboard [here](https://dune.com/kukumaster/etherex).
 
-**Key Charts**
-- **xREX Fee Earnings Potential**  
-  *Compares cumulative staking to fee/revenue generation for stakers.*  
-  - Insight: Demonstrates protocol value capture, critical for assessing Etherex sustainability.  
-- **Trading Pair Concentration**  
-  *Shows whether liquidity is diversified or concentrated in a few pairs.*  
-  - Insight: Reveals dependency risks and scaling opportunities across Etherex markets.  
+### Chart Descriptions
 
----
-
-#### 3. User Behavior & Engagement  
-**Focus:** Community health and adoption quality on Etherex.  
-
-**Key Charts**
-- **Real vs. Bot Users**  
-  *Filters out non-genuine wallets to measure authentic participation.*  
-  - Insight: Distinguishes sustainable adoption from inflated metrics.  
-- **Post-Launch Activity Sustainability**  
-  *Analyzes whether users remain engaged after initial launch momentum.*  
+- **Daily REX Staking** – Monitors staking adoption and conversion to xREX. Useful for protocol teams to assess incentive uptake.  
+- **Emission Effectiveness** – Compares staking to DEX activity to measure incentive efficiency. Mainly for protocol teams.  
+- **Staking-to-Swap Time Lag** – Tracks how quickly staking translates into swaps, showing incentive effectiveness. Protocol-focused.  
+- **User Quality Analysis** – Distinguishes real vs. bot users, useful for subscribers and protocols to understand genuine adoption.  
+- **User Leaderboard** – Ranks users by activity and volume; relevant for subscribers and protocol teams tracking engagement.  
+- **Top Trading Pairs by Activity Score** – Shows the most active trading pairs; mainly for protocol teams to monitor liquidity.  
+- **Etherex Adoption & Sustainability Metrics** – Aggregated adoption, retention, and sustainability indicators; valuable for advisors, protocol teams, and users.
 
 ---
 
-#### 4. Ecosystem & Macro-Level Indicators  
-**Focus:** Etherex’s role in the wider Linea ecosystem and cross-chain dynamics.  
-
-**Key Charts**
-- **ETH → Linea Bridge Volume vs. Etherex Volume**  
-  *Compares Ethereum inflows to Linea with on-chain Etherex activity.*  
-  - Insight: Correlates cross-chain movement with protocol adoption.  
-- **Average Trade Size & Daily Trading Activity**  
-  *Tracks both overall activity levels and trading sophistication.*  
-  - Insight: Highlights capital concentration patterns and liquidity depth.  
-
----
-#### Staking-to-Swap Time Lag
-
-**Description:**  
-This chart measures the time elapsed between a user staking REX and subsequently executing a swap. It provides insight into how quickly users engage with the protocol after staking, highlighting user behavior and engagement patterns.
-
-**Metrics Displayed:**  
-- `users_with_time_lags`: Total number of users who staked and then swapped.  
-- `avg_min_time_lag_minutes`: Average minimum time (in minutes) between staking and swap per user.  
-- `median_time_lag_minutes`: Median minimum time between staking and swap.  
-- `p90_time_lag_minutes`: 90th percentile minimum time between staking and swap.  
-- `p99_time_lag_minutes`: 99th percentile minimum time between staking and swap.  
-
-By structuring the dashboard around **Etherex stakeholders and ecosystem context**, the data serves **internal teams, external advisors, and end-users** alike—making it easier to connect **operational mechanics** with **strategic growth signals**.
+By structuring the dashboard around Etherex stakeholders and ecosystem context, the data serves internal teams, external advisors, and end-users alike, making it easier to connect operational mechanics with strategic growth signals.
 
 ## Methodology
 ### Data Collection Process
@@ -204,13 +153,13 @@ Reason: New project, logs decoding not complete on Dune.
 Workaround: Use event counts as a proxy for activity while waiting for decoded data. Once Dune exposes amount or value in decoded logs, the query can be upgraded to sum fee amounts per week.
 
 ## Resources
-[Blockworks](https://blockworks.co/news/linea-previews-eth-first-roadmap)
-[Cointelegraph](https://cointelegraph.com/news/consensys-launches-linea-zk-evm-to-scale-ethereum)
-[DefiLlama](https://defillama.com/protocol/dexs/etherex)
-DEXScreener ? https://dexscreener.com/linea/0x5c1bf4b7563c460282617a0304e3cde133200f70
-[Dune Docs](https://docs.dune.com/home)
-[Etherex Docs](https://docs.etherex.finance/)
-[Linea Docs](https://docs.linea.build/technology/canonical-token-bridge)
-[Linea official](https://linea.build/)
-[Linea Block Explorer](https://lineascan.build/)
+[Blockworks](https://blockworks.co/news/linea-previews-eth-first-roadmap) |
+[Cointelegraph](https://cointelegraph.com/news/consensys-launches-linea-zk-evm-to-scale-ethereum) |
+[DefiLlama](https://defillama.com/protocol/dexs/etherex) |
+[DEXScreener](https://dexscreener.com/linea/0x5c1bf4b7563c460282617a0304e3cde133200f70) |
+[Dune Docs](https://docs.dune.com/home) |
+[Etherex Docs](https://docs.etherex.finance/) |
+[Linea Docs](https://docs.linea.build/technology/canonical-token-bridge) |
+[Linea official](https://linea.build/) |
+[Linea Block Explorer](https://lineascan.build/) 
 
