@@ -1,62 +1,49 @@
 # Etherex Adoption Analysis
 A data-driven analysis of Etherex on Linea, focusing on genuine user adoption, liquidity efficiency, and protocol incentives using Dune Analytics.
-
+Etherex is Linea’s new next-gen MetaDEX.
 
 ## Table of Contents
 
 1. [Introduction](#introduction)
-   - Project Overview
-   - Objective of the Dashboard
-   - Why Etherex & Linea
-
+   
 2. [Dashboard Overview](#dashboard-overview)
-   - Summary of the 8 Charts
-   - Key Metrics & KPIs
-   - Data Sources (Dune, CoinGecko, DefiLlama, etc.)
-
+  
 3. [Methodology](#methodology)
    - Data Collection Process
    - SQL Queries & API Scripts
    - Chart Explanation
-   - Filtering Bots vs Genuine Users
-   - Assumptions & Definitions
 
 4. [Insights & Analysis](#insights--analysis)
    - Adoption Quality (Regular vs Genuine Users)
    - Liquidity Efficiency & Capital Utilization
    - Fee Yield & Incentive Alignment
-   - Slippage & Trading Efficiency
-   - MEV / Sandwich Exposure Analysis
-  
-5. [Target Audience & Use Cases](#target-audience--use-cases)
-   - Protocol Team: Understand adoption quality, liquidity health, and tokenomics efficiency
-   - Advisors / Analysts: Evaluate market traction, growth potential, and risk exposure
-   - Subscribers / Community: Transparency into genuine user engagement and protocol performance
-
+   
 5. [Resources & References](#resources--references)
    - Articles, Reports, and Whitepapers
    - Dune Queries & Documentation Links
-
-6. [Repo Structure](#repo-structure)
-   - Description of Folders and Files
-   - How to Reproduce / Run the Scripts
 
 7. [Conclusion](#conclusion)
    - Key Takeaways
    - Limitations & Next Steps
   
 ## 1. Introduction
-### Project Overview
+### Project Overview: Why Linea & Etherex
+I chose to focus on Etherex and the Linea ecosystem due to their emerging significance in the Ethereum scaling landscape. Linea, ConsenSys’ zkEVM rollup, has recently been gaining traction as a high-performance L2 solution for Ethereum, designed to provide faster and cheaper transactions while maintaining Ethereum’s security. According to Blockworks and Cointelegraph, Linea’s roadmap and adoption are accelerating, making it a prime candidate for examining early-stage L2 adoption metrics.
 
-"Linea’s vibrant new DEX". Linea is an emerging L2 ecosystem with rapid TVL growth. Early activity in Etherex (DEX) and Aave (lending) shows increasing user adoption and capital inflows. 
+Etherex, currently the second-largest DEX on Linea by TVL (DefiLlama), provides a tangible lens to evaluate how users are interacting with new DeFi infrastructure. By analysing Etherex activity alongside staking, fee distribution, and trade behaviour, this dashboard aims to capture early adoption patterns, user quality, and the economic value being generated in the Linea ecosystem.
 
-Source: https://x.com/etherexfi/status/1947132627737309399
+Unlike other DEXs, Etherex sends 100% of trading fees to stakers and 100% of liquidity rewards to LPs—no cuts to insiders or teams. Its native token, REX, powers a flywheel of rewards: LPs earn REX, and staking REX into xREX gives you governance rights and a share of all trading fees.
+
+This analysis explore real, actionable metrics in a fast-growing ecosystem, providing insights into both protocol health and broader L2 adoption trends.
+Sources: [Blockworks](https://blockworks.co/news/linea-previews-eth-first-roadmap), [Cointelegraph](https://cointelegraph.com/news/consensys-launches-linea-zk-evm-to-scale-ethereum), [DefiLlama](https://defillama.com/protocol/dexs/etherex), [Etherex Twitter](https://x.com/etherexfi/status/1947132627737309399)
 
 ## 2. Dashboard Overview
 This dashboard provides a structured view of Etherex performance within the Linea ecosystem. The charts are grouped by stakeholder audience: Protocol Teams, Advisors/Investors, and Subscribers/Users.
 By structuring the data this way, the dashboard moves beyond raw numbers to deliver actionable insights tailored to each audience.
 
 Data is sourced from Dune Analytics and is presented with a balance of technical accuracy and strategic interpretation.
+
+---
 
 #### 1. Protocol Teams  
 **Focus:** Internal Etherex health, incentive effectiveness, and liquidity engagement.  
@@ -125,6 +112,7 @@ By structuring the dashboard around **Etherex stakeholders and ecosystem context
 
 ## Methodology
 ### Data Collection Process
+...???
 
 Main Contract Addresses:
 0xefd81eec32b9a8222d1842ec3d99c7532c31e348 - REX token 
@@ -132,6 +120,26 @@ Main Contract Addresses:
 0x5C1Bf4B7563C460282617a0304E3cDE133200f70 - WETH/REX DEX POOL
 
 ### Chart Explanation
+My analysis of user behavior around the Etherex protocol uses two complementary measurement lenses:
+1. Token Transfer Analysis (ERC‑20)
+ - Based on REX token transfers recorded from the ERC‑20 contract.
+ - Metrics: total tokens sent, average transfer size, unique counterparties, activity span.
+ - Purpose: to capture the economic weight of wallets — i.e., who is actually moving meaningful amounts of REX.
+ - Example classification:
+Dust Bots = wallets with high transfer counts but average transfer size < 1 REX, typically negligible in overall token flow (`WHEN avg_transaction_size < 1 AND total_transactions > 20 THEN 'Dust Bot`)
+
+2. DEX Swap Analysis (behavioral focus)
+ - Based on swap logs from Etherex liquidity pools on Linea.
+ - Metrics: trade counts, pairs traded against, number of active days, activity span.
+ - Purpose: to capture the behavioral footprint of wallets — i.e., who is most active by raw trading frequency.
+ - Example classification:
+Dust Bots = wallets with many trades but very low average trades/day or consistent low‑value spam activity (`WHEN avg_trade_per_day < 1 AND number_of_trades > 20 THEN 'Dust Bot`)
+
+Why Two Definitions of "Dust Bots"?
+The term Dust Bot is deliberately used in both contexts, but with different operational definitions, because the analysis is meant to compare economic impact vs behavioral activity:
+In token transfer space, Dust Bots contribute almost no volume and are economically insignificant.
+In trading activity space, Dust Bots dominate trade counts, highlighting their role as network spam rather than meaningful participants.
+
 1. 
 2.
 3.
@@ -172,7 +180,7 @@ Cons: Like daily_swaps, it includes repeated actions by the same users, not uniq
 ### SQL Queries & API Scripts
 
 Challenges with Etherex:
-Very Recent Launch - Limited historical data (only ~28 days in our database)
+Very Recent Launch - Limited historical data (only ~28 days in our database). Etherex Dune tables don’t provide USD amounts because the logs are not decoded.
 Sustainability Questions - Recent growth may be unsustainable
 
 ## Challenges
@@ -187,6 +195,8 @@ Calculating USD value of swaps, fee payouts, or token transfers is impossible un
 
 Workarounds Implemented
 Event Counting Instead of Volume. For fee-related charts, we track the number of FeesCollected events and unique collectors. This provides a proxy metric for activity, even without numeric fee amounts. 
+I tired a Python-based solution that decodes the raw logs using the known ABI of Swap events. This shows Data sourcing & independence: I am identifying missing data and figuring out alternative ways to get it.
+Problem-solving: I am using Python to reconstruct USD volumes when the SQL source is incomplete.
 Current Status – xREX Fee Earnings
 Available metric: Weekly counts of FeesCollected events across all FeeCollector contracts.
 Unavailable metrics: Actual amounts of fees in REX tokens. The event data is not decoded yet.
@@ -200,6 +210,7 @@ Workaround: Use event counts as a proxy for activity while waiting for decoded d
 DEXScreener ? https://dexscreener.com/linea/0x5c1bf4b7563c460282617a0304e3cde133200f70
 [Dune Docs](https://docs.dune.com/home)
 [Etherex Docs](https://docs.etherex.finance/)
+[Linea Docs](https://docs.linea.build/technology/canonical-token-bridge)
 [Linea official](https://linea.build/)
 [Linea Block Explorer](https://lineascan.build/)
 
