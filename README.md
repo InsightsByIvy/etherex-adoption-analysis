@@ -1,6 +1,8 @@
 # Etherex Adoption Analysis
 Beyond Volume Metrics - Tracking real activity metrics on Linea's fastest-rising Decentralised Exchange (DEX)
 
+![Thumbnail](Images/1753068956181-557705.webp)
+
 ## Table of Contents
 
 1. [Introduction](#introduction)
@@ -16,9 +18,9 @@ Beyond Volume Metrics - Tracking real activity metrics on Linea's fastest-rising
 Welcome to the Etherex Dashboard, a comprehensive analytics tool examining genuine user engagement on Etherex, Linea's native DEX, while filtering out bot manipulation and vanity metrics.
 
 #### Why Linea & Etherex
-**Linea**: ConsenSys' zkEVM rollup is gaining significant traction as a high-performance L2 solution, with accelerating adoption in the Ethereum scaling landscape.
+**Linea**: ConsenSys’ zkEVM rollup has seen rising TVL, reflecting increased usage, though revenue and fees remain modest. This mixed picture makes Linea an interesting ecosystem to examine adoption quality and user activity.
 
-**Etherex**: Currently the second-largest DEX on Linea by TVL (Total Value Locked), powered by metaDEX x(3,3) methodology—an evolved, more accessible version of ve(3,3).
+**Etherex**: One of the leading native DEXs on Linea by TVL and activity, Etherex stands out for its innovative tokenomics and trading ecosystem.
 
 #### What Makes Etherex Unique
 * 100% fee distribution → All trading fees to stakers
@@ -60,77 +62,48 @@ You can access the full dashboard [here](https://dune.com/kukumaster/etherex).
 By structuring the dashboard around Etherex stakeholders and ecosystem context, the data serves internal teams, external advisors, and end-users alike, making it easier to connect operational mechanics with strategic growth signals.
 
 ## Methodology
-### Data Collection Process
-...???
+This section explains how data is collected, processed, and analyzed, and how the metrics in the Etherex Dashboard are defined.
 
-Main Contract Addresses:
-0xefd81eec32b9a8222d1842ec3d99c7532c31e348 - REX token 
-0xc93B315971A4f260875103F5DA84cB1E30f366Cc - xREX Staking
-0x5C1Bf4B7563C460282617a0304E3cDE133200f70 - WETH/REX DEX POOL
+### 1. Data Collection Process
+Data is sourced from Dune Analytics and websites (Twitter posts, Block explorer)? Maybe I will add API too...
 
-### Chart Explanation
-My analysis of user behavior around the Etherex protocol uses two complementary measurement lenses:
-1. Token Transfer Analysis (ERC‑20)
- - Based on REX token transfers recorded from the ERC‑20 contract.
- - Metrics: total tokens sent, average transfer size, unique counterparties, activity span.
- - Purpose: to capture the economic weight of wallets — i.e., who is actually moving meaningful amounts of REX.
- - Example classification:
-Dust Bots = wallets with high transfer counts but average transfer size < 1 REX, typically negligible in overall token flow (`WHEN avg_transaction_size < 1 AND total_transactions > 20 THEN 'Dust Bot`)
+#### Main Contract Addresses:
+`0xefd81eec32b9a8222d1842ec3d99c7532c31e348` - REX token 
+`0xc93B315971A4f260875103F5DA84cB1E30f366Cc` - xREX Staking
+`0x5C1Bf4B7563C460282617a0304E3cDE133200f70` - WETH/REX DEX POOL
 
-2. DEX Swap Analysis (behavioral focus)
- - Based on swap logs from Etherex liquidity pools on Linea.
- - Metrics: trade counts, pairs traded against, number of active days, activity span.
- - Purpose: to capture the behavioral footprint of wallets — i.e., who is most active by raw trading frequency.
- - Example classification:
-Dust Bots = wallets with many trades but very low average trades/day or consistent low‑value spam activity (`WHEN avg_trade_per_day < 1 AND number_of_trades > 20 THEN 'Dust Bot`)
+#### Processing & Filtering:
+ - ERC‑20 token transfers filtered by amount and sender (ignoring null addresses).
+ - Bot/farmer detection using thresholds for transaction frequency, activity span, and average transfer size.
+ - Aggregation by wallet, day, and activity type.
 
-Why Two Definitions of "Dust Bots"?
-The term Dust Bot is deliberately used in both contexts, but with different operational definitions, because the analysis is meant to compare economic impact vs behavioral activity:
-In token transfer space, Dust Bots contribute almost no volume and are economically insignificant.
-In trading activity space, Dust Bots dominate trade counts, highlighting their role as network spam rather than meaningful participants.
-
-1. 
-2.
-3.
-4. Evaluating Metrics for Emission Effectiveness
-:unique_daily_stakers: It measures the number of distinct addresses staking REX tokens each day.
-Relevance: Indicates how many unique users are participating in the staking mechanism, which is likely the source of incentives (e.g., rewards for staking).
-Pros: Directly measures unique participants in the incentive system. Higher numbers suggest more users are engaging with staking, potentially motivated by rewards.
-Cons: Doesn’t directly show trading activity, so it only represents the input (incentives) side.
-Data Insight: Ranges from 1 (Aug 6) to 769 (Aug 7), dropping to 130 by Aug 29. This shows varying staking engagement, with a peak early on.
-
-:unique_daily_traders: It measures the number of distinct addresses performing swaps on Etherex pairs each day.
-Relevance: Represents unique users engaging in the desired activity (trading). If incentives work, we’d expect higher unique_daily_traders when staking is high.
-Pros: Captures unique participants in the target activity, showing the breadth of DEX usage.
-Cons: Doesn’t directly tie to staking, so we need to correlate it with staking metrics.
-Data Insight: Ranges from 532 (Aug 6) to 2765 (Aug 7), stabilizing around 830–1385 by Aug 29. Trading engagement is consistently higher than staking.
-
-:trader_to_staker_ratio: It measures the ratio of unique_daily_traders to unique_daily_stakers (i.e., how many unique traders exist per unique staker).
-Relevance: Directly compares unique participants in trading vs. staking, indicating whether staking incentives attract more traders relative to stakers. A higher ratio suggests that staking (incentives) drives broader trading activity.
-Pros: Combines both unique metrics into a single indicator of effectiveness. A high ratio (e.g., more traders per staker) implies incentives are successfully driving trading.
-Cons: Can be skewed on days with low unique_daily_stakers (e.g., 532 on Aug 6 due to only 1 staker). It’s less meaningful if staking is zero or very low.
-Data Insight: Spikes to 532 on Aug 6 (1 staker, 532 traders), then stabilizes at 2–8 (mostly 3–6) from Aug 7 onward. This suggests 2–8 unique traders per staker on most days.
-
-:swaps_per_staked_token: It measures the number of swaps (daily_swaps) per unit of staked REX tokens (daily_staked).
-Relevance: Shows how much trading activity occurs relative to the amount staked, linking incentives (staked tokens) to activity (swaps). Higher values suggest more trading per staked token.
-Pros: Directly ties staking volume to trading volume, useful for assessing if larger stakes drive more swaps.
-Cons: Doesn’t focus on unique participants, as daily_swaps includes repeated transactions by the same users. Also, it’s zero when daily_staked is zero.
-Data Insight: Varies widely, from 0.0000044 (Aug 6) to 0.3853 (Aug 16). High values (e.g., Aug 15–16) occur when daily_staked is low, suggesting sensitivity to staking volume.
-
-daily_staked and daily_swaps:What they measure: Total REX tokens staked and total swap transactions per day.
-Relevance: Show the scale of staking and trading but don’t account for unique participants.
-Cons: Can be inflated by a few active users, making them less suitable for measuring distinct engagement.
-
-staking_transactions:What it measures: Total staking transactions per day.
-Cons: Like daily_swaps, it includes repeated actions by the same users, not unique participants.
+#### Metrics Aggregation:
+ - Token transfers → total sent, average transfer size, unique counterparties, activity span.
+ - DEX swaps → trade counts, active days, pairs traded, activity span.
 
 
+### 2. Chart & Analysis Logic
+
+| Chart                                     | What it Measures                          | Purpose / Relevance            | Metrics Used                                                                                       | Notes / Caveats                                    |
+| ----------------------------------------- | ----------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| Daily REX Staking                         | Total staked REX per day                  | Monitor staking adoption       | `daily_staked`, `staking_transactions`                                                             | Shows scale of incentive participation             |
+| Emission Effectiveness                    | How staking correlates with DEX activity  | Measure incentive efficiency   | `unique_daily_stakers`, `unique_daily_traders`, `trader_to_staker_ratio`, `swaps_per_staked_token` | Higher ratios indicate incentives driving trading  |
+| Staking-to-Swap Time Lag                  | Time between staking and swap per user    | Evaluate speed of engagement   | `min_time_lag`, `median_time_lag`, `p90/p99_time_lag`                                              | Reflects user responsiveness to staking incentives |
+| User Quality Analysis                     | Real vs. bot users                        | Distinguish genuine adoption   | Classification based on activity span, transaction counts, avg transfer size, burstiness           | Highlights sustainable vs inflated participation   |
+| User Leaderboard                          | User ranking by activity and volume       | Identify top contributors      | `total_sent`, `total_trades`, `active_days`                                                        | Useful for monitoring high-value participants      |
+| Top Trading Pairs by Activity Score       | Most active pairs on Etherex              | Monitor liquidity distribution | `trade_count`, `activity_score`                                                                    | Indicates concentration vs diversified trading     |
+| Etherex Adoption & Sustainability Metrics | Aggregated adoption and retention metrics | Macro-level protocol health    | `unique_users`, `active_days`, `total_volume`                                                      | Combines engagement and economic activity          |
+
+
+Notes
+
+The methodology is designed to balance economic significance and behavioral activity.
+
+Metrics and classifications (e.g., Dust Bots, High-Frequency Bots) are chosen to reflect genuine participation and incentive effectiveness.
 
 ### SQL Queries & API Scripts
 
-Challenges with Etherex:
-Very Recent Launch - Limited historical data (only ~28 days in our database). Etherex Dune tables don’t provide USD amounts because the logs are not decoded.
-Sustainability Questions - Recent growth may be unsustainable
+## Key Insights
 
 ## Challenges
 until the ABI for that contract is decoded, we can’t calculate actual fee amounts from the logs.
@@ -141,6 +114,9 @@ Queries relying on bytearray_to_uint256 or arg0 fail or return 0 values.
 Contract ABIs Not Fully Integrated
 Without the ABI, we can only access general log metadata (block time, tx hash, event name).
 Calculating USD value of swaps, fee payouts, or token transfers is impossible until ABI decoding is complete.
+Challenges with Etherex:
+Very Recent Launch - Limited historical data (only ~28 days in our database). Etherex Dune tables don’t provide USD amounts because the logs are not decoded.
+Sustainability Questions - Recent growth may be unsustainable
 
 Workarounds Implemented
 Event Counting Instead of Volume. For fee-related charts, we track the number of FeesCollected events and unique collectors. This provides a proxy metric for activity, even without numeric fee amounts. 
