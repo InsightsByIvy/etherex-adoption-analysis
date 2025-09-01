@@ -1,7 +1,7 @@
 # Etherex Adoption Analysis
 Beyond Volume Metrics - Tracking real activity metrics on Linea's fastest-rising Decentralised Exchange (DEX)
 
-![Thumbnail](Images/1753068956181-557705.webp)
+![Thumbnail](Images/1753068956181-557705.png)
 
 ## Table of Contents
 
@@ -97,36 +97,82 @@ Data is sourced from Dune Analytics and websites (Twitter posts, Block explorer)
 
 Notes
 
-The methodology is designed to balance economic significance and behavioral activity.
+The methodology is designed to balance economic significance and behavioural activity.
 
 Metrics and classifications (e.g., Dust Bots, High-Frequency Bots) are chosen to reflect genuine participation and incentive effectiveness.
 
-### SQL Queries & API Scripts
+### Data Sourcing and Frameworks
+
+**Data Sourcing**: 
+This project combines both primary blockchain data and secondary industry references to ensure reliability and independence:
+
+1. Primary Data (On-chain metrics sourced from):
+ - Dune SQL → querying events, transfers, and swap activity.
+ - Contract addresses via block explorers → direct mapping of Etherex’s core contracts (REX, xREX staking, WETH/REX pool).
+ - API? 
+
+2. Secondary data (Contextual)
+- DefiLlama & Token Terminal: TVL, volume, revenue comparisons across ecosystems.
+- Project announcements & industry media (Blockworks, Cointelegraph, etc.): Validating incentive programs and adoption narratives.
+
+This layered sourcing approach ensures adoption metrics are both technically accurate and contextually grounded.
+
+**Frameworks**: 
+
+To move beyond surface-level activity metrics, the analysis applies structured frameworks designed to separate signal from noise in on-chain activity:
+- **Active Address Segmentation for L2 Protocols** – a reusable methodology that classifies users into categories (e.g., Power Users, Farmers, High-Frequency Bots) based on activity span, transaction frequency, and behavioral patterns.
+- **Incentive Effectiveness Framework** – links staking activity to downstream trading engagement, providing a view on how efficiently token incentives translate into real protocol usage.
+- **Adoption & Sustainability Metrics** – measures retention, concentration, and liquidity distribution to evaluate whether growth reflects sustainable adoption rather than short-term farming.
+
+### SQL Example SQL Queries
+#### User Quality Segmentation
+
+#### User Leaderboard with Anti-bot 
+
+
+
+**API**: Future iterations will use Etherex API/Linea explorer to validate Dune data and ensure independence.
 
 ## Key Insights
 
-## Challenges
-until the ABI for that contract is decoded, we can’t calculate actual fee amounts from the logs.
-Decoded Event Data is Missing
-Many of the newer contracts (e.g., FeeCollector, Pair contracts) are not yet decoded by Dune.
-Key numeric fields such as amount, arg0, or token-specific data are unavailable.
-Queries relying on bytearray_to_uint256 or arg0 fail or return 0 values.
-Contract ABIs Not Fully Integrated
-Without the ABI, we can only access general log metadata (block time, tx hash, event name).
-Calculating USD value of swaps, fee payouts, or token transfers is impossible until ABI decoding is complete.
-Challenges with Etherex:
-Very Recent Launch - Limited historical data (only ~28 days in our database). Etherex Dune tables don’t provide USD amounts because the logs are not decoded.
-Sustainability Questions - Recent growth may be unsustainable
+#### Protocol Health
 
-Workarounds Implemented
-Event Counting Instead of Volume. For fee-related charts, we track the number of FeesCollected events and unique collectors. This provides a proxy metric for activity, even without numeric fee amounts. 
-I tired a Python-based solution that decodes the raw logs using the known ABI of Swap events. This shows Data sourcing & independence: I am identifying missing data and figuring out alternative ways to get it.
-Problem-solving: I am using Python to reconstruct USD volumes when the SQL source is incomplete.
-Current Status – xREX Fee Earnings
-Available metric: Weekly counts of FeesCollected events across all FeeCollector contracts.
-Unavailable metrics: Actual amounts of fees in REX tokens. The event data is not decoded yet.
-Reason: New project, logs decoding not complete on Dune.
-Workaround: Use event counts as a proxy for activity while waiting for decoded data. Once Dune exposes amount or value in decoded logs, the query can be upgraded to sum fee amounts per week.
+- **Staking Adoption**: Surge in first two weeks, then plateau → suggests heavy front-loading of incentives.
+- **Emission Effectiveness**: Incentives are translating into sustained trading activity, but marginal efficiency is declining (diminishing returns to rewards).
+- **Staking-to-Swap Time Lag**: Most users engage fairly quickly after staking, but there’s a small group with very long delays. This indicates that while incentives are effective for the majority, a minority of staked capital remains idle for extended periods.
+(Median / 50th percentile: Half of the users swapped faster than this time.
+90th percentile = 2,400 minutes (~1.7 days): 90% of users swapped within ~1.7 days after staking.
+99th percentile = 20,000 minutes (~13.9 days): 99% of users swapped within ~14 days; the slowest 1% took longer than that.)
+
+#### User Behaviour
+
+??
+
+#### Adoption & Sustainability
+
+Etherex is gaining unique users steadily but daily actives plateau around ~250–300, showing early signs of stickiness despite incentive-driven entry.
+- Trading pair concentration: WETH/REX dominates → protocol risk if liquidity not diversified.
+Retention curve shows meaningful stickiness among first-wave users.
+- Sustainability: Engagement is holding, but long-term sustainability depends on a variery of factors.
+
+## Challenges
+
+#### a. Data Gaps
+
+ - **Incomplete ABIs**: New contracts (FeeCollector, Pair contracts) not fully decoded → fee amounts unavailable.
+ - **Limited History**: Only ~28 days of data in current tables.
+ - **Missing Metadata**: Token-specific details (decimals, USD values) not exposed in Dune logs.
+
+#### b. Methodological Workarounds
+
+- Event Counting: Used number of FeesCollected events as a proxy for activity.
+- Bot Filtering: Applied thresholds on transaction frequency and activity span to identify likely bots.
+- Python Decoding: Experimented with ABI-based log parsing to reconstruct USD volumes outside Dune.
+
+#### c. Future Work
+- Upgrade queries once ABIs decoded.
+- Add external validation pipeline (Linea API, BigQuery) to strengthen independence.
+- Expand analysis once >3 months of data is available.
 
 ## Resources
 [Blockworks](https://blockworks.co/news/linea-previews-eth-first-roadmap) |
