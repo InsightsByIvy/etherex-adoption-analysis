@@ -5,13 +5,13 @@ Beyond Volume Metrics - Tracking real activity metrics on Linea's fastest-rising
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
-2. [Dashboard Overview](#dashboard-overview)
-3. [Methodology](#methodology)
-4. [Data Sourcing & Frameworks](#data-sourcing--frameworks)
-5. [Key Insights](#Key-insights)
-6. [Challenges](#challenges)
-7. [Resources & References](#resources--references)
+1. [Introduction](#1-introduction)
+2. [Dashboard Overview](#2-dashboard-overview)
+3. [Methodology](#3-methodology)
+4. [Data Sourcing & Frameworks](#4-data-sourcing--frameworks)
+5. [Key Insights](#5-Key-insights)
+6. [Challenges](#6-challenges)
+7. [Resources](#7resources)
   
 ## 1. Introduction
 ### Project Overview
@@ -107,7 +107,7 @@ The methodology is designed to balance economic significance and behavioural act
 
 This query classifies REX token wallets into activity-based groups to show whether adoption of Etherex’s native token is driven by genuine user behaviour or bots/incentive farming. Since REX transfers primarily reflect staking and reward activity, this view highlights the quality of participation in Etherex’s token economy.
 
-```sql -- User Segmentation Framework: Classifying Etherex wallets
+```sql 
 WITH wallet_activity AS (
   SELECT 
     from_address AS wallet,
@@ -139,6 +139,19 @@ This query applies the Active Address Segmentation Framework:
  - **Likely Genuine Users**: Sustained activity across multiple days.
  - **Regular Users**: Remaining low-activity wallets.
 
+ By classifying wallets on these rules, the segmentation framework offers a clear, data-driven perspective on which participants drive token activity. This approach distinguishes between automated trading, highly engaged users, and baseline participants, allowing a more nuanced understanding of real adoption beyond headline metrics.
+
+| Rule                                          | Classification      | Reasoning                                            |
+| --------------------------------------------- | ------------------- | ---------------------------------------------------- |
+| `total_transactions > 1000`                   | Bot: High Frequency | Likely automated activity                            |
+| `activity_span_days > 7 AND active_days > 3`  | Likely Genuine User | Sustained engagement over time                       |
+| `total_sent > 1000 AND unique_recipients > 2` | Power User          | Large-volume users interacting with multiple wallets |
+| Else                                          | Regular User        | Default category for low activity                    |
+
+
+
+Wallet segmentation by type helps reveal each group’s impact on both userbase size and overall transaction volumes:
+
  | User Type           | Wallet % | Volume % |
 | ------------------- | -------- | -------- |
 | Bot: High Frequency | 1%      | 26%       |
@@ -149,6 +162,7 @@ This query applies the Active Address Segmentation Framework:
 **Key takeaway**: While some bot activity exists, most REX token volume (62%) comes from genuine users, suggesting real adoption within Etherex’s token economy.
 
 #### **User Leaderboard with Anti-bot** (User Scoring Calculation )
+
 This query produces a user leaderboard using a weighted scoring system to down-rank bots while boosting consistent, active human traders. The user score weights multiple behaviour signals to distinguish real, active users from bots. It combines penalties and bonuses multiplicatively as follows:
 
 Bot Penalties reduce scores for suspicious patterns such as:
@@ -220,11 +234,10 @@ time_lags AS (
 
 #### **Emission Effectiveness**
 This query measures how well **REX staking emissions** are translating into real trading activity and user engagement. It links daily staking events to Etherex DEX swaps and produces two key effectiveness ratios:
-
 - **Swaps per Staked Token**: How much trading activity is generated for each REX token staked on a given day. A higher value means emissions are stimulating more protocol usage per unit of staking.  
 - **Trader-to-Staker Ratio**: The number of unique traders relative to unique stakers per day. This shows whether staking activity is broadening into market participation (traders) or staying siloed among a few stakers.  
 
-By combining staking and swap data, this framework highlights whether **incentives are driving genuine liquidity and trading activity** — or just attracting passive staking without downstream engagement.
+By combining staking and swap data, this framework highlights whether incentives are driving genuine liquidity and trading activity, or just attracting passive staking without downstream engagement.
 
 ```sql
 -- Effectiveness ratios
@@ -265,18 +278,21 @@ To move beyond surface-level activity metrics, the analysis applies structured f
 
 #### Protocol Health
 
-- **Staking Adoption**: Surge in first two weeks, then plateau → suggests heavy front-loading of incentives.
-- **Emission Effectiveness**: This pattern can show how user behavior, incentives, and liquidity evolve over time. Peaks may reflect bursts of trader activity or promotional events, while dips can suggest growth in staking outpacing trade.
+- **Staking Adoption**: Surge in first two weeks post-launch, followed by stabilization. This suggests incentive front-loading successfully bootstrapped activity, but growth now relies on organic drivers.
+- **Emission Effectiveness**: Rewards initially correlated strongly with trading activity; over time, staking growth outpaced swaps → indicating incentives attract liquidity, but not all stakers remain active traders.
 - **Staking-to-Swap Time Lag**: Most users engage fairly quickly after staking, but there’s a small group with very long delays. This indicates that while incentives are effective for the majority, a minority of staked capital remains idle for extended periods.
-(Median / 50th percentile: Half of the users swapped faster than this time.
-90th percentile = 2,400 minutes (~1.7 days): 90% of users swapped within ~1.7 days after staking.
-99th percentile = 20,000 minutes (~13.9 days): 99% of users swapped within ~14 days; the slowest 1% took longer than that.)
+   * 50th percentile: Users swapped within minutes to hours after staking.
+   * 90th percentile: ~1.7 days delay (~2,400 minutes).
+   * 99th percentile: ~14 days delay (~20,000 minutes).
 
+      This mix shows incentives are effective for most, but a subset represents passive or speculative engagement.
 
 
 #### User Behaviour
 
-??
+- **User Quality Analysis (Real vs. Bots)**: – ~65% of trading activity comes from genuine users, 35% from automated or bot-like accounts, indicates a healthy balance of authentic adoption while highlighting the need for monitoring. A subset of high-volume, diverse-wallet interactors drive the majority of sustainable activity, serving as the backbone of user engagement.
+- **Anti-bot Scoring**: Behavioural scoring highlights that "Quality Users" consistently outperform high-frequency bots in long-term engagement and gas expenditure. 
+
 
 #### Adoption & Sustainability
 
@@ -318,6 +334,10 @@ While core metrics suggest a foundation for organic development rather than pure
 [Etherex Docs](https://docs.etherex.finance/) |
 [Linea Docs](https://docs.linea.build/technology/canonical-token-bridge) |
 [Linea official](https://linea.build/) |
-[Linea Block Explorer](https://lineascan.build/) 
+[Linea Block Explorer](https://lineascan.build/) |
 [Token Terminal](https://tokenterminal.com/explorer/projects/linea/metrics/all)
+
+
+Credit goes to some AI tools (Claude AI, ChatGPT & Perplexity) for assistance in drafting, structuring, and refining content and SQL queries for this report and the Etherex dashboard.
+
 
