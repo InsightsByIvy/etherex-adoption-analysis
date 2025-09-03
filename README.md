@@ -273,25 +273,24 @@ To move beyond surface-level activity metrics, the analysis applies structured f
 - **Incentive Effectiveness Framework** – links staking activity to downstream trading engagement, providing a view on how efficiently token incentives translate into real protocol usage.
 - **Adoption & Sustainability Metrics** – measures retention, concentration, and liquidity distribution to evaluate whether growth reflects sustainable adoption rather than short-term farming.
 
-Data Enrichment & Verification (Python / API Integration)
+**Data Enrichment & Verification (Python / API Integration)**
+
 To enhance and validate on-chain metrics, this project leverages Python and external APIs to complement primary Dune data:
 
 a, USD Price Enrichment:
- -Daily token (REX) volumes (from swaps and transfers) are converted into USD using prices fetched via the CoinGecko API.
+ - Daily token (REX) volumes (from swaps and transfers) are converted into USD using prices fetched via the CoinGecko API.
  - This enables dashboards to show economic impact and compare token activity in both native units and USD.
 
 b, Data Processing & Visualisation
  - Python and Pandas are used to process Dune query results, convert timestamps, and compute derived metrics like USD volume.
  - Matplotlib generates bar charts visualising daily REX token volume alongside USD value, providing an intuitive, cross-currency perspective.
 
- This chart visualises daily REX token transfers along with their USD value, using Dune on-chain data enriched via CoinGecko:
+ This chart visualises daily REX token transfers along with their USD value, using Dune query via CoinGecko:
  ![Daily REX Volume](Images/daily_rex_volume.png)
 
 A total of 13,781 unique addresses were identified and grouped into activity-based categories using an anti-bot weighted scoring framework. The chart below illustrates the distribution of user types:
 ![User Type](Images/user_type_distribution.png)
 
-c, Cross-Source Validation:
- - CoinGecko price data provides an external reference point to ensure that on-chain totals align with independent market data.
 
 ## 5. Key Insights
 
