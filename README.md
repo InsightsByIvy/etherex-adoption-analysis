@@ -284,8 +284,11 @@ b, Data Processing & Visualisation
  - Python and Pandas are used to process Dune query results, convert timestamps, and compute derived metrics like USD volume.
  - Matplotlib generates bar charts visualising daily REX token volume alongside USD value, providing an intuitive, cross-currency perspective.
 
- This chart visualizes daily REX token transfers along with their USD value, using Dune on-chain data enriched via CoinGecko:
- ![REX volune](Images/daily_rex_volume.png)
+ This chart visualises daily REX token transfers along with their USD value, using Dune on-chain data enriched via CoinGecko:
+ ![Daily REX Volume](Images/daily_rex_volume.png)
+
+A total of 13,781 unique addresses were identified and grouped into activity-based categories using an anti-bot weighted scoring framework. The chart below illustrates the distribution of user types:
+![User Type](Images/user_type_distribution.png)
 
 c, Cross-Source Validation:
  - CoinGecko price data provides an external reference point to ensure that on-chain totals align with independent market data.
