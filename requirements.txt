@@ -1,0 +1,5 @@
+requests==2.31.0
+pandas==2.0.3
+pycoingecko
+tqdm==4.65.0
+web3==6.0.0

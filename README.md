@@ -36,7 +36,7 @@ Source:  [DefiLlama](https://defillama.com/protocol/dexs/etherex)
 This analysis explores real, actionable metrics in a fast-growing ecosystem, providing insights into both protocol health and broader L2 adoption trends.
 Sources: [Blockworks](https://blockworks.co/news/linea-previews-eth-first-roadmap) / [Cointelegraph](https://cointelegraph.com/news/consensys-launches-linea-zk-evm-to-scale-ethereum) / [Etherex Twitter](https://x.com/etherexfi/status/1947132627737309399)
 
-*You can also read the full research report on Notion **here** (link).*
+*You can also read the full research report on Notion **[here](https://ivy-kepiro.notion.site/Etherex-Protocol-Analysis-Beyond-Standard-DeFi-Metrics-261ddf92abbc80fabeadec7d43d58340)**.*
 
 ## 2. Dashboard Overview
 The Etherex Dashboard provides a structured view of the protocol’s performance within the Linea ecosystem. Charts are created for different stakeholder audiences — **Protocol Teams, Advisors, and Users** — to deliver actionable insights.
@@ -272,6 +272,23 @@ To move beyond surface-level activity metrics, the analysis applies structured f
 - **Active Address Segmentation** – a reusable methodology that classifies users into categories (e.g., Power Users, Farmers, High-Frequency Bots) based on activity span, transaction frequency, and behavioural patterns.
 - **Incentive Effectiveness Framework** – links staking activity to downstream trading engagement, providing a view on how efficiently token incentives translate into real protocol usage.
 - **Adoption & Sustainability Metrics** – measures retention, concentration, and liquidity distribution to evaluate whether growth reflects sustainable adoption rather than short-term farming.
+
+Data Enrichment & Verification (Python / API Integration)
+To enhance and validate on-chain metrics, this project leverages Python and external APIs to complement primary Dune data:
+
+a, USD Price Enrichment:
+ -Daily token (REX) volumes (from swaps and transfers) are converted into USD using prices fetched via the CoinGecko API.
+ - This enables dashboards to show economic impact and compare token activity in both native units and USD.
+
+b, Data Processing & Visualisation
+ - Python and Pandas are used to process Dune query results, convert timestamps, and compute derived metrics like USD volume.
+ - Matplotlib generates bar charts visualising daily REX token volume alongside USD value, providing an intuitive, cross-currency perspective.
+
+ This chart visualizes daily REX token transfers along with their USD value, using Dune on-chain data enriched via CoinGecko:
+ ![REX volune](Images/daily_rex_volume.png)
+
+c, Cross-Source Validation:
+ - CoinGecko price data provides an external reference point to ensure that on-chain totals align with independent market data.
 
 ## 5. Key Insights
 

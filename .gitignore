@@ -1,0 +1,9 @@
+# Ignore environment variables file
+.env
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# VS Code Code Runner temp file
+tempCodeRunnerFile.py
