@@ -16,12 +16,12 @@ Beyond Volume Metrics - Tracking real activity metrics on Linea's fastest-rising
 ## 1. Introduction
 ### Project Overview
  
-Welcome to the Etherex Dashboard, a comprehensive analytics tool tracking real user engagement on Etherex, Linea's native DEX, while filtering out bot manipulation or superficial activity.
+The Etherex Dashboard provides comprehensive analytics for Etherex, Linea's native DEX, with a focus on distinguishing authentic user behaviour from automated activity. The analysis focuses on organic adoption patterns, effective liquidity deployment, and indicators of sustainable protocol development.
 
 #### Why Linea & Etherex
-**Linea**: ConsenSys’ zkEVM rollup has seen rising TVL, reflecting increased usage, though revenue and fees remain modest. This mixed picture makes Linea an interesting ecosystem to examine adoption quality and user activity.
+**Linea**: ConsenSys’ zkEVM rollup has seen rising TVL, reflecting increased usage, though revenue and fees remain modest. With Linea recently announcing another incentive campaign ([posted on X](https://x.com/LineaBuild/status/1962897890294055009)), this mixed picture makes the ecosystem particularly interesting to examine adoption quality, user activity, and the effectiveness of incentive-driven growth strategies.
 
-**Etherex**: One of the leading native DEXs on Linea by TVL and activity, Etherex stands out for its innovative tokenomics and trading ecosystem.
+**Etherex**: One of the leading native DEXs on Linea by TVL and activity, known for its innovative tokenomics. This analysis began independently, before Linea's recent partnership announcement and incentive program disclosure.
 
 ![TT](Images/Screenshot4.png)
 *Total Value Locked (TVL) for Linea (L2) and Etherex (DEX), showing growth in the total value of assets secured in protocol smart contracts.*  
@@ -54,15 +54,13 @@ Data is sourced from **Dune Analytics** and presented with a balance of technica
 
 ### Chart Descriptions
 
-- **Daily REX Staking** – Monitors staking adoption and conversion to xREX. Question answered: `Are users actively staking and converting REX to xREX?`
-- **Emission Effectiveness** – Compares staking to DEX activity to measure incentive efficiency. Question answered: `Are staking incentives translating into trading activity?` 
-- **Staking-to-Swap Time Lag** – Tracks how quickly staking translates into swaps. Question answered: `How fast do stakers engage with the DEX after staking?`
-- **User Quality Analysis (REX Holders)** – Distinguishes real vs. bot users among REX token holders. Question answered: `Which users are the most active and engaged on Etherex?`
+- **Daily REX Staking** – Monitors staking adoption and conversion to xREX. 
+- **Emission Effectiveness** – Compares staking to DEX activity to measure incentive efficiency. 
+- **Staking-to-Swap Time Lag** – Tracks how quickly staking translates into swaps. 
+- **User Quality Analysis (REX Holders)** – Distinguishes real vs. bot users among REX token holders. 
 - **User Leaderboard with Anti-Bot Weighted Scoring** – Ranks users by a weighted score factoring in activity quality and bot adjustments.
-Question answered: `Who are the most consistently active and engaged users on Etherex, accounting for quality of activity rather than just raw trade volume?`
-- **Top Trading Pairs by Activity Score** – Evaluates each pool’s activity using a combined metric of unique trades, gas spent, and number of unique traders.
-Question answered: `Which trading pairs are generating the most meaningful engagement, considering both volume and user diversity?` 
-- **Etherex Adoption & Sustainability Metrics** – Aggregated adoption, retention, and sustainability indicators. Question answered: `Is Etherex adoption growing in a sustainable way?`
+- **Top Trading Pairs by Activity Score** – Engagement intensity across pools, factoring in unique trades, traders, and gas spent.
+- **Etherex Adoption & Sustainability Metrics** – Macro view of user retention and protocol growth.
 
 By structuring the dashboard around Etherex stakeholders and ecosystem context, the data serves internal teams, external advisors, and end-users alike, making it easier to connect operational mechanics with strategic growth signals.
 
@@ -88,15 +86,16 @@ This section explains how data is processed and analysed, and how the metrics in
 
 ### Chart & Analysis Logic
 
-| Chart                                     | What it Measures                          | Purpose             | Metrics Used                                                                                       | Notes                                     |
-| ----------------------------------------- | ----------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| Daily REX Staking                         | Total staked REX per day                  | Monitor staking adoption       | `daily_staked`, `staking_transactions`                                                             | Shows scale of incentive participation             |
-| Emission Effectiveness                    | How staking correlates with DEX activity  | Measure incentive efficiency   | `unique_daily_stakers`, `unique_daily_traders`, `trader_to_staker_ratio`, `swaps_per_staked_token` | Higher ratios indicate incentives driving trading  |
-| Staking-to-Swap Time Lag                  | Time between staking and swap per user    | Evaluate speed of engagement   | `min_time_lag`, `median_time_lag`, `p90/p99_time_lag`                                              | Reflects user responsiveness to staking incentives |
-| User Quality Analysis                     | Real vs. bot users                        | Distinguish genuine adoption   | Classification based on activity span, transaction counts, avg transfer size, burstiness           | Highlights sustainable vs inflated participation   |
-| User Leaderboard                          | User ranking by activity and volume       | Identify top contributors      | `total_sent`, `total_trades`, `active_days`                                                        | Useful for monitoring high-value participants      |
-| Top Trading Pairs by Activity Score       | Pools ranked by engagement intensity              | Monitor liquidity distribution | `unique_trades`, `unique_traders`, `gas_spent`, combined as `activity_score`                                                                    | Highlights engagement patterns, not a TVL/volume ranking     |
-| Etherex Adoption & Sustainability Metrics | Aggregated adoption and retention metrics | Macro-level protocol health    | `unique_users`, `active_days`, `total_volume`                                                      | Combines engagement and economic activity          |
+| Chart                     | Measures                      | Key Metrics                                                               | Notes                                            | Question Answered                                                                                       |
+| ------------------------- | ----------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| Daily REX Staking         | Adoption of staking           | daily\_staked, staking\_transactions                                      | Shows incentive uptake                           | Are users actively staking and converting REX to xREX?                                                  |
+| Emission Effectiveness    | Staking → trading correlation | unique\_daily\_stakers, unique\_daily\_traders, swaps\_per\_staked\_token | Evaluates incentive efficiency                   | Are staking incentives translating into trading activity?                                               |
+| Staking-to-Swap Lag       | User responsiveness           | min\_time\_lag, median\_time\_lag, p90/p99                                | Highlights idle capital                          | How quickly do stakers engage with the DEX after staking?                                               |
+| User Quality              | Real vs. bot                   | activity span, transaction counts, avg transfer                           | Highlights genuine participation                 | Which users are the most active and engaged on Etherex?                                                 |
+| Anti-Bot Leaderboard      | Weighted user score           | total\_trades, active\_days, gas spent                                    | Adjusts for bot activity                         | Who are the most consistently active users, accounting for bot adjustments?                             |
+| Top Trading Pairs         | Engagement intensity          | unique\_trades, unique\_traders, gas\_spent                               | Not volume-based, focuses on meaningful activity | Which trading pairs generate the most meaningful engagement considering both volume and user diversity? |
+| Adoption & Sustainability | Macro growth                  | unique\_users, active\_days, total\_volume                                | Retention & engagement metrics                   | Is Etherex adoption growing in a sustainable way?                                                       |
+
 
 
 Notes: 
@@ -161,7 +160,7 @@ Wallet segmentation by type helps reveal each group’s impact on both userbase 
 
 **Key takeaway**: While some bot activity exists, most REX token volume (62%) comes from genuine users, suggesting real adoption within Etherex’s token economy.
 
-#### **User Leaderboard with Anti-bot** (User Scoring Calculation )
+#### **User Leaderboard with Anti-bot** (User Scoring Calculation)
 
 This query produces a user leaderboard using a weighted scoring system to down-rank bots while boosting consistent, active human traders. The user score weights multiple behaviour signals to distinguish real, active users from bots. It combines penalties and bonuses multiplicatively as follows:
 
@@ -333,6 +332,7 @@ While core metrics suggest a foundation for organic development rather than pure
 [Linea Docs](https://docs.linea.build/technology/canonical-token-bridge) |
 [Linea official](https://linea.build/) |
 [Linea Block Explorer](https://lineascan.build/) |
+[Linea on X](https://x.com/LineaBuild/status/1962897890294055009) |
 [Token Terminal](https://tokenterminal.com/explorer/projects/linea/metrics/all)
 
 
