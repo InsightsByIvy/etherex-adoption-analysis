@@ -7,9 +7,16 @@ from dune_client.client import DuneClient
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import os
+from dotenv import load_dotenv
+
+# Load .env variables
+load_dotenv()
 
 # 1. Configuration
-dune = DuneClient("Xsfx6F1nmzvQV3GcosoflC3AO06yqh3r")
+DUNE_API_KEY = os.getenv("DUNE_API_KEY")  
+
+# 1. Configuration
+dune = DuneClient(DUNE_API_KEY)
 
 # Adoption & Sustainability query
 QUERY_ID = 5706649

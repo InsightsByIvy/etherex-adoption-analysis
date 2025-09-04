@@ -2,13 +2,25 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from dune_client.client import DuneClient
 import os
+from dotenv import load_dotenv
+
+
+# Load .env variables
+load_dotenv()
 
 # 1. Configuration
-API_KEY = "Xsfx6F1nmzvQV3GcosoflC3AO06yqh3r"  
+DUNE_API_KEY = os.getenv("DUNE_API_KEY")  
+if not DUNE_API_KEY:
+    raise ValueError("DUNE_API_KEY not found in environment variables")
+
 QUERY_ID = 5726091     # Leaderboard query ID
 
+print("API Key loaded:", DUNE_API_KEY)
+
 # Initialise Dune client
-dune = DuneClient(API_KEY)
+dune = DuneClient(DUNE_API_KEY)
+
+
 
 # 2. Fetch results
 query_result = dune.get_latest_result(QUERY_ID)
