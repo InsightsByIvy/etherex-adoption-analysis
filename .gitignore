@@ -7,3 +7,5 @@ __pycache__/
 
 # VS Code Code Runner temp file
 tempCodeRunnerFile.py
+
+.env
