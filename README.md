@@ -320,7 +320,7 @@ A total of 13,781 unique addresses were identified and grouped into activity-bas
 #### **Summary**:
 Analysis of Etherex's on-chain metrics reveals encouraging signs of authentic user engagement, though further investigation is needed to definitively assess growth sustainability. The Protocol Performance charts indicate that staking adoption has stabilised after the initial surge, while User Behaviour analysis shows a solid base of consistent traders alongside some reward-driven activity. Trading & Adoption Metrics highlight concentrated yet diverse activity in top pairs and moderate retention over time.
 
-While core metrics suggest a foundation for organic development rather than purely artificial volume inflation, the mixed effectiveness of incentive mechanisms and presence of reward-seeking behaviour warrant continued monitoring. The data provides a baseline for authentic engagement, but longer observation periods and additional behavioural analysis would strengthen conclusions about Etherex's trajectory on Linea.
+While core metrics suggest a foundation for organic development rather than purely artificial volume inflation, the mixed effectiveness of incentive mechanisms and presence of reward-seeking behaviour warrant continued monitoring. The data provides a baseline for authentic engagement, but longer observation periods and additional behavioural analysis would strengthen conclusions about Etherex's success on Linea.
 
 ## 6. Challenges
 

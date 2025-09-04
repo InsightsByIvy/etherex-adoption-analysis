@@ -5,7 +5,7 @@ import os
 
 # 1. Configuration
 API_KEY = "Xsfx6F1nmzvQV3GcosoflC3AO06yqh3r"  
-QUERY_ID = 5726091              # Leaderboard query ID
+QUERY_ID = 5726091     # Leaderboard query ID
 
 # Initialise Dune client
 dune = DuneClient(API_KEY)
@@ -19,19 +19,7 @@ logs = pd.DataFrame(query_result.result.rows)
 print("Columns in query:", logs.columns.tolist())
 print("Rows returned:", len(logs))
 
-# 3. Top 10 users by weighted score
-top_users = logs.sort_values(by='weighted_score', ascending=False).head(10)
-
-# Keep only relevant columns
-top_users_table = top_users[['leaderboard_rank', 'user_address', 'total_trades', 'active_days', 'total_gas_eth', 'weighted_score', 'user_type']]
-
-# Show top 10 in terminal
-print(top_users_table.head(10))
-
-# Optionally, save full table as CSV
-os.makedirs("Images", exist_ok=True)
-
-# 4. User Type Distribution Pie Chart
+# 3. User Type Distribution Pie Chart
 user_type_counts = logs['user_type'].value_counts()
 
 # Plot pie chart
@@ -41,7 +29,7 @@ plt.pie(
     labels=None,  
     autopct='%1.1f%%',  # Show percentages on slices
     startangle=90,
-    colors=['#606C38', '#DDA15E', '#FEFAE0', '#283618', '#FF6B6B', '#BC6C25']  
+    colors=['#606C38', "#F5E536", '#FEFAE0', '#283618', '#FF6B6B', '#BC6C25', "#C655AF", "#6B7CDE"]  
 )
 plt.title("Etherex User Type Distribution")
 
@@ -51,8 +39,8 @@ plt.legend(
     loc="center left",  
     bbox_to_anchor=(1.1, 0.5),  # move legend outside to the right
     title="User Types",
-    prop={'size': 8},         # shrink legend text
-    title_fontsize=9          # shrink legend title
+    prop={'size': 8},        
+    title_fontsize=9         
 )
 
 plt.tight_layout()
